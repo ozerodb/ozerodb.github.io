@@ -1,24 +1,221 @@
-.contact-btn{
-    padding: 0.75em;
+:root {
+    --bg-1: #0f2027;
+    --bg-2: #203a43;
+    --bg-3: #2c5364;
+    --surface: rgba(255, 255, 255, 0.06);
+    --surface-hover: rgba(255, 255, 255, 0.1);
+    --border: rgba(255, 255, 255, 0.12);
+    --text: #e6edf3;
+    --muted: #9fb3bd;
+    --accent: #5eb1bf;
 }
-.contact-btn:hover{
-    transition: color 0.5s;
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg-1: #f4f8fa;
+        --bg-2: #e6f0f3;
+        --bg-3: #d3e5ea;
+        --surface: rgba(255, 255, 255, 0.7);
+        --surface-hover: #ffffff;
+        --border: rgba(15, 32, 39, 0.12);
+        --text: #0f2027;
+        --muted: #4c6670;
+        --accent: #2c7a8a;
+    }
 }
-.contact-btn.btn-github:hover{
-    color:#6b6b6b;
+
+* {
+    box-sizing: border-box;
 }
-.contact-btn.btn-linkedin:hover{
-    color:#0077b5;
+
+html {
+    background: var(--bg-3);
 }
-.contact-btn.btn-stackof:hover{
-    color:#f48024;
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--text);
+    background: linear-gradient(160deg, var(--bg-1), var(--bg-2) 55%, var(--bg-3));
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
 }
-.contact-btn.btn-youtube:hover{
-    color:#ff0000;
+
+a {
+    color: var(--accent);
+    text-decoration: none;
 }
-.contact-btn.btn-instagram:hover{
-    color:#c13584;
+
+a:hover {
+    text-decoration: underline;
 }
-.contact-btn.btn-twitter:hover{
-    color:#1da1f2;
+
+.page {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 3rem 1.25rem 4rem;
+}
+
+/* Hero */
+.hero {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.avatar {
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    box-shadow: 0 0 0 6px var(--surface), 0 12px 40px rgba(0, 0, 0, 0.35);
+    margin-bottom: 1.25rem;
+}
+
+h1 {
+    font-size: clamp(2rem, 6vw, 2.75rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+
+.handle {
+    color: var(--accent);
+    font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
+    margin: 0.25rem 0 0;
+}
+
+.tagline {
+    color: var(--muted);
+    margin: 0.5rem 0 1.5rem;
+}
+
+/* Socials */
+.socials {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.social {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 1.25rem;
+    transition: color 0.3s, transform 0.2s, background 0.3s;
+}
+
+.social:hover {
+    text-decoration: none;
+    background: var(--surface-hover);
+    transform: translateY(-2px);
+}
+
+.social.github:hover { color: #8b949e; }
+.social.linkedin:hover { color: #0077b5; }
+.social.stackof:hover { color: #f48024; }
+.social.youtube:hover { color: #ff0000; }
+
+/* Bio cards */
+.cards {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    backdrop-filter: blur(6px);
+}
+
+.emoji {
+    font-size: 1.75rem;
+    line-height: 1;
+}
+
+.card h2 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.card p {
+    margin: 0.1rem 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+/* Top repositories */
+.work {
+    margin-top: 2.5rem;
+}
+
+.section-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 0.75rem;
+}
+
+.repos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.75rem;
+}
+
+.repo {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    color: var(--text);
+    transition: background 0.3s, transform 0.2s;
+}
+
+.repo:hover {
+    text-decoration: none;
+    background: var(--surface-hover);
+    transform: translateY(-2px);
+}
+
+.repo h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent);
+    overflow-wrap: anywhere;
+}
+
+.repo p {
+    flex: 1;
+    margin: 0.4rem 0 0.9rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.repo-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+.dot {
+    display: inline-block;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    margin-right: 0.35rem;
 }
