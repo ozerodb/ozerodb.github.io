@@ -1,0 +1,9 @@
+{
+  "name": "road-to-a-million",
+  "private": true,
+  "description": "Static planner served from ozerodb.github.io/millionaire/. No dependencies, no build step.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}

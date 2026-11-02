@@ -1,0 +1,28 @@
+name: Road to a Million tests
+
+on:
+  push:
+    paths:
+      - "millionaire/**"
+      - ".github/workflows/millionaire-tests.yml"
+  pull_request:
+    paths:
+      - "millionaire/**"
+      - ".github/workflows/millionaire-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: millionaire
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Unit tests for the money math
+        run: npm test

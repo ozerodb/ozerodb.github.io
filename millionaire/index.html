@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Road to a Million</title>
+    <meta name="description" content="When will you have a million? A planner for steady investing and compound growth, with the odds from 2,000 simulated markets.">
+    <meta name="theme-color" content="#f4f8fa" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0f2027" media="(prefers-color-scheme: dark)">
+
+    <!-- Link previews -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Road to a Million">
+    <meta property="og:description" content="When will you have a million? A planner for steady investing and compound growth, with the odds from 2,000 simulated markets.">
+    <meta property="og:url" content="https://ozerodb.github.io/millionaire/">
+    <meta property="og:image" content="https://ozerodb.github.io/android-chrome-512x512.png">
+    <meta name="twitter:card" content="summary">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <!-- app:head -->
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="app.js"></script>
+    <!-- /app:head -->
+</head>
+
+<body>
+<!-- app:body -->
+<div class="page">
+    <header class="masthead">
+        <a class="back" href="https://ozerodb.github.io/">&larr; ozerodb</a>
+        <h1>Road to a Million</h1>
+        <p class="lead">Investing a steady amount every month and letting it compound is the dependable way to a million. Enter your numbers to see when you'd get there, what would get you there sooner, and how likely it is.</p>
+    </header>
+
+    <noscript>
+        <p class="stale-note">This planner needs JavaScript to run the numbers.</p>
+    </noscript>
+
+    <main class="planner">
+        <section class="verdict" id="verdict" aria-live="polite" aria-atomic="true">
+            <p class="eyebrow">At your current pace</p>
+            <p class="verdict-lead" id="verdict-lead">You reach €1,000,000 at age</p>
+            <p class="verdict-figure" id="verdict-figure">66</p>
+            <p class="verdict-sub" id="verdict-sub">in 36 years 3 months</p>
+        </section>
+
+        <form class="inputs card" id="inputs" novalidate aria-labelledby="inputs-title">
+            <div class="inputs-head">
+                <h2 class="eyebrow" id="inputs-title">Your numbers</h2>
+                <button type="button" class="text-button" id="reset">Reset example</button>
+            </div>
+            <p class="hint">Start from the example and change anything. Your numbers are saved only in this browser.</p>
+
+            <div class="field">
+                <label for="age">Your age</label>
+                <div class="control">
+                    <input id="age" name="age" type="number" inputmode="decimal" min="0" max="100" step="1" aria-describedby="age-error">
+                    <span class="unit">years</span>
+                </div>
+                <p class="error" id="age-error" hidden></p>
+            </div>
+
+            <div class="field">
+                <label for="start">Invested so far</label>
+                <div class="control">
+                    <input id="start" name="start" type="number" inputmode="decimal" min="0" step="1000" aria-describedby="start-error">
+                    <span class="unit" data-currency-symbol>€</span>
+                </div>
+                <p class="error" id="start-error" hidden></p>
+            </div>
+
+            <div class="field">
+                <label for="monthly">Invested every month</label>
+                <div class="control">
+                    <input id="monthly" name="monthly" type="number" inputmode="decimal" min="0" step="50" aria-describedby="monthly-error">
+                    <span class="unit" data-currency-symbol>€</span>
+                </div>
+                <p class="error" id="monthly-error" hidden></p>
+            </div>
+
+            <div class="field">
+                <label for="annualReturn">Expected yearly return</label>
+                <div class="control">
+                    <input id="annualReturn" name="annualReturn" type="number" inputmode="decimal" min="-20" max="30" step="0.1" aria-describedby="annualReturn-error annualReturn-hint">
+                    <span class="unit">%</span>
+                </div>
+                <div class="chips" id="presets" role="group" aria-label="Typical long-run returns"></div>
+                <p class="error" id="annualReturn-error" hidden></p>
+                <p class="hint" id="annualReturn-hint">Before fees and inflation. Broad stock indices have grown about 7&ndash;10% a year over the long run, with big swings along the way. Past returns don't guarantee future ones.</p>
+            </div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label for="target">Target</label>
+                    <div class="control">
+                        <input id="target" name="target" type="number" inputmode="decimal" min="1" step="100000" aria-describedby="target-error">
+                        <span class="unit" data-currency-symbol>€</span>
+                    </div>
+                    <p class="error" id="target-error" hidden></p>
+                </div>
+                <div class="field">
+                    <label for="goalAge">By age</label>
+                    <div class="control">
+                        <input id="goalAge" name="goalAge" type="number" inputmode="decimal" min="1" step="1" aria-describedby="goalAge-error">
+                    </div>
+                    <p class="error" id="goalAge-error" hidden></p>
+                </div>
+            </div>
+
+            <details class="more" id="more">
+                <summary>More assumptions</summary>
+                <div class="more-body">
+                    <div class="field">
+                        <label for="raise">Yearly raise of your monthly amount</label>
+                        <div class="control">
+                            <input id="raise" name="raise" type="number" inputmode="decimal" min="-10" max="20" step="0.5" aria-describedby="raise-error raise-hint">
+                            <span class="unit">%</span>
+                        </div>
+                        <p class="error" id="raise-error" hidden></p>
+                        <p class="hint" id="raise-hint">For example 3% if you invest more as your pay rises.</p>
+                    </div>
+
+                    <div class="field">
+                        <label for="fee">Fees</label>
+                        <div class="control">
+                            <input id="fee" name="fee" type="number" inputmode="decimal" min="0" max="5" step="0.05" aria-describedby="fee-error fee-hint">
+                            <span class="unit">% a year</span>
+                        </div>
+                        <p class="error" id="fee-error" hidden></p>
+                        <p class="hint" id="fee-hint">Fund and platform costs, as a share of your balance. Index funds often charge 0.1&ndash;0.3%.</p>
+                    </div>
+
+                    <div class="field">
+                        <label for="inflation">Inflation</label>
+                        <div class="control">
+                            <input id="inflation" name="inflation" type="number" inputmode="decimal" min="-5" max="20" step="0.1" aria-describedby="inflation-error inflation-hint">
+                            <span class="unit">% a year</span>
+                        </div>
+                        <p class="error" id="inflation-error" hidden></p>
+                        <p class="hint" id="inflation-hint">Used to show future amounts in today's money.</p>
+                    </div>
+
+                    <div class="field">
+                        <label for="volatility">Market swings (volatility)</label>
+                        <div class="control">
+                            <input id="volatility" name="volatility" type="number" inputmode="decimal" min="0" max="60" step="1" aria-describedby="volatility-error volatility-hint">
+                            <span class="unit">% a year</span>
+                        </div>
+                        <p class="error" id="volatility-error" hidden></p>
+                        <p class="hint" id="volatility-hint">How far a typical year strays from the average. Broad stock indices: about 15&ndash;20%. Only the odds use it.</p>
+                    </div>
+
+                    <div class="check">
+                        <input id="targetReal" name="targetReal" type="checkbox" aria-describedby="targetReal-hint">
+                        <label for="targetReal">Target is in today's money</label>
+                        <p class="hint" id="targetReal-hint">Grows the target with inflation, so it keeps today's buying power.</p>
+                    </div>
+
+                    <div class="field">
+                        <label for="currency">Currency</label>
+                        <div class="control">
+                            <select id="currency" name="currency"></select>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        </form>
+
+        <div class="results" id="results">
+            <p class="stale-note" id="stale-note" hidden>Fix the highlighted field to update the results.</p>
+
+            <section class="summary card" aria-label="Reaching your target by your goal age">
+                <article class="tile">
+                    <h3 class="tile-label" id="need-label">Monthly amount to get there by 50</h3>
+                    <p class="tile-value"><span id="need-value">€1,944</span><span class="per" id="need-per"> a month</span></p>
+                    <p class="tile-note" id="need-note"></p>
+                </article>
+                <article class="tile">
+                    <h3 class="tile-label" id="chance-label">Chance of getting there by 50</h3>
+                    <p class="tile-value" id="chance-value">1%</p>
+                    <p class="tile-note" id="chance-note"></p>
+                </article>
+                <article class="tile">
+                    <h3 class="tile-label" id="safe-label">Monthly amount for a 90% chance by 50</h3>
+                    <p class="tile-value"><span id="safe-value">€3,332</span><span class="per" id="safe-per"> a month</span></p>
+                    <p class="tile-note" id="safe-note"></p>
+                </article>
+                <article class="tile">
+                    <h3 class="tile-label" id="mix-label">Where your balance comes from</h3>
+                    <p class="tile-value" id="mix-value"></p>
+                    <div class="mix">
+                        <div class="mix-bar" id="mix-bar" role="img">
+                            <span class="mix-in" id="mix-in-bar"></span>
+                            <span class="mix-growth" id="mix-growth-bar"></span>
+                        </div>
+                        <ul class="mix-legend">
+                            <li><i class="key key-invested" aria-hidden="true"></i><span>You put in</span><strong id="mix-in"></strong></li>
+                            <li><i class="key key-balance" aria-hidden="true"></i><span>Growth</span><strong id="mix-growth"></strong></li>
+                        </ul>
+                    </div>
+                </article>
+            </section>
+
+            <p class="inflation-note" id="inflation-note"></p>
+
+            <section class="chart-card card" aria-labelledby="chart-title">
+                <div class="chart-head">
+                    <h2 id="chart-title">Your balance over time</h2>
+                    <ul class="legend">
+                        <li><i class="key key-line" aria-hidden="true"></i><span id="legend-projection">Projection</span></li>
+                        <li><i class="key key-band" aria-hidden="true"></i>Middle 80% of simulated markets</li>
+                        <li><i class="key key-invested-area" aria-hidden="true"></i>Money you put in</li>
+                        <li><i class="key key-target" aria-hidden="true"></i>Target</li>
+                    </ul>
+                </div>
+                <div class="chart" id="chart" tabindex="0" role="img" aria-describedby="chart-help">
+                    <svg id="chart-svg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"></svg>
+                    <div class="tooltip" id="tooltip" hidden></div>
+                </div>
+                <p class="chart-help" id="chart-help">Ages run along the bottom. Point at the chart, or focus it and use the arrow keys, to read any year.</p>
+            </section>
+
+            <section class="levers-card card" id="levers" aria-labelledby="levers-title">
+                <h2 id="levers-title">What gets you there sooner</h2>
+                <ul class="levers" id="levers-list"></ul>
+            </section>
+
+            <details class="table-card card" id="table-card">
+                <summary><h2>Year by year</h2><span class="summary-hint">Every number behind the chart</span></summary>
+                <p class="hint" id="years-caption"></p>
+                <div class="table-scroll">
+                    <table class="years">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="num">Age</th>
+                                <th scope="col" class="num">Year</th>
+                                <th scope="col" class="num">You put in</th>
+                                <th scope="col" class="num">Growth</th>
+                                <th scope="col" class="num">Balance</th>
+                                <th scope="col" class="num">Middle 80% of markets</th>
+                                <th scope="col" class="num">In today's money</th>
+                            </tr>
+                        </thead>
+                        <tbody id="years-body"></tbody>
+                    </table>
+                </div>
+            </details>
+
+            <section class="method" aria-labelledby="method-title">
+                <h2 id="method-title">How the numbers work</h2>
+                <ul>
+                    <li>Returns compound monthly, at the rate that adds up to your yearly return after fees, so a 7% year adds exactly 7%. Fees come off as a share of your balance.</li>
+                    <li>You invest at the end of every month. Your monthly amount goes up once a year by the raise you set. Amounts needed per month are rounded up to the next whole unit.</li>
+                    <li>The projection assumes the same return every year. Real markets swing, so the odds and the shaded range come from 2,000 simulated market histories with the volatility you set, centred so that a typical history earns your expected return. The same histories are reused after every change, so differences come from your inputs, not from luck.</li>
+                    <li>Inflation doesn't change your balance. It converts amounts into today's money and, if you choose, grows the target.</li>
+                    <li>Taxes aren't included. They depend on your country and the kind of account.</li>
+                    <li>This is a learning tool, not financial advice.</li>
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Runs entirely in your browser. Nothing you enter leaves this page.</p>
+        <p>Made by <a href="https://ozerodb.github.io/">ozerodb</a></p>
+    </footer>
+</div>
+<!-- /app:body -->
+</body>
+
+</html>
